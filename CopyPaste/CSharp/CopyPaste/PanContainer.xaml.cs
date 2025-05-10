@@ -1,4 +1,4 @@
-namespace CopyPaste;
+﻿namespace CopyPaste;
 
 public partial class PanContainer : ContentView
 {
@@ -57,10 +57,10 @@ public partial class PanContainer : ContentView
                 var newX = this.panX + e.TotalX;
                 var newY = this.panY + e.TotalY;
 
+                // Calculate the maximum X and Y values ​​not to go out the area
                 var maxX = this.PanAreaWidth - this.Content.Width;
                 var maxY = this.PanAreaHeight - this.Content.Height;
 
-                // Translate and pan.
                 this.Content.TranslationX = Math.Clamp(newX, 0, maxX);
                 this.Content.TranslationY = Math.Clamp(newY, 0, maxY);
                 break;
