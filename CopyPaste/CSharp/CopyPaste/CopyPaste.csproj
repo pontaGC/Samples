@@ -99,10 +99,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="SampleObjects\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\Sevice.Core\Sevice.Core.csproj" />
 	</ItemGroup>
 

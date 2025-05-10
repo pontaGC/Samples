@@ -17,9 +17,7 @@ public partial class PanContainer : ContentView
         defaultBindingMode: BindingMode.OneWay);
 
     private readonly PanGestureRecognizer panGesture = new PanGestureRecognizer();
-
-    private double panX = 0;
-    private double panY = 0;
+    private readonly PanGestureUpdater panGestureUpdater = new PanGestureUpdater();
 
 	public PanContainer()
 	{
@@ -41,30 +39,12 @@ public partial class PanContainer : ContentView
         set => this.SetValue(PanAreaHeightProperty, value);
     }
 
-
-    private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
+    private void OnPanUpdated(object? sender, PanUpdatedEventArgs e)
     {
-        switch (e.StatusType)
-        {
-            case GestureStatus.Started:
-            case GestureStatus.Completed:
-                // Store intial position or the translation applied during the pan
-                this.panX = this.Content.TranslationX;
-                this.panY = this.Content.TranslationY;
-                break;
-
-            case GestureStatus.Running:
-
-                var newX = this.panX + e.TotalX;
-                var newY = this.panY + e.TotalY;
-
-                // Calculate the maximum X and Y values ​​not to go out the area
-                var maxX = this.PanAreaWidth - this.Content.Width;
-                var maxY = this.PanAreaHeight - this.Content.Height;
-
-                this.Content.TranslationX = Math.Clamp(newX, 0, maxX);
-                this.Content.TranslationY = Math.Clamp(newY, 0, maxY);
-                break;
-        }
+        this.panGestureUpdater.Execute(
+            this.Content,
+            e,
+            this.PanAreaWidth,
+            this.PanAreaHeight);
     }
 }
