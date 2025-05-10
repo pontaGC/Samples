@@ -41,6 +41,7 @@ public partial class PanContainer : ContentView
         set => this.SetValue(PanAreaHeightProperty, value);
     }
 
+
     private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
     {
         switch (e.StatusType)
