@@ -5,11 +5,5 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:CopyPaste"
     Shell.FlyoutBehavior="Disabled"
-    Title="CopyPaste">
-
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+    Title="Copy Paste Sample">
 </Shell>
