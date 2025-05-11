@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyPaste", "CopyPaste.csproj", "{D4CC1DC0-EB5D-43FD-B2EC-E4C818208AD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sevice.Core", "..\Sevice.Core\Sevice.Core.csproj", "{E03B24F4-596F-4C2C-86A5-2A3C88DFAEAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sevices.Core", "..\Sevice.Core\Sevices.Core.csproj", "{E03B24F4-596F-4C2C-86A5-2A3C88DFAEAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

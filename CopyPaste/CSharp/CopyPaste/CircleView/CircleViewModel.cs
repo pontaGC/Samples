@@ -5,22 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 
+using Color = System.Drawing.Color;
+
 namespace CopyPaste.CircleView
 {
     internal class CircleViewModel : ObservableObject
     {
-        private Brush fillColor = Brush.Red;
-        private Brush strokeColor = Brush.Black;
+        private Color fillColor = Color.Red;
+        private Color strokeColor = Color.Black;
         private double positionX = 100;
         private double positionY = 100;
 
-        public Brush FillColor 
+        public Color FillColor 
         { 
             get => this.fillColor;
             set => this.SetProperty(ref this.fillColor, value);
         }
 
-        public Brush StrokeColor 
+        public Color StrokeColor 
         {
             get => this.strokeColor;
             set => this.SetProperty(ref this.strokeColor, value);

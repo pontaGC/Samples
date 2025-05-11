@@ -99,7 +99,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Sevice.Core\Sevice.Core.csproj" />
+	  <ProjectReference Include="..\Sevice.Core\Sevices.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
