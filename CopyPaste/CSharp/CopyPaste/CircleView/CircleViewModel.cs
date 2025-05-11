@@ -11,10 +11,24 @@ namespace CopyPaste.CircleView
 {
     internal class CircleViewModel : ObservableObject
     {
+        private string id = string.Empty;
+        private string name = string.Empty;
         private Color fillColor = Color.Red;
         private Color strokeColor = Color.Black;
         private double positionX = 100;
         private double positionY = 100;
+
+        public string Id
+        {
+            get => this.id;
+            set => this.SetProperty(ref this.id, value);
+        }
+
+        public string Name
+        {
+            get => this.name;
+            set => this.SetProperty(ref this.name, value);
+        }
 
         public Color FillColor 
         { 

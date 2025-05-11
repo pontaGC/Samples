@@ -9,11 +9,60 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:ColorToBrushConverter x:Key="colorToBrushConverter" />
+            <converter:ColorHexStringConverter x:Key="colorHexStringConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <ScrollView>
-        <Grid>
-            <CollectionView ItemsSource="{Binding CircleViewModels, Mode=OneTime}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <!--Meta data area-->
+        <Grid Grid.Column="0" Padding="10"
+              RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+              ColumnDefinitions="Auto,*">
+            <Label Grid.Row="0" Grid.ColumnSpan="2"
+                    Text="属性一覧"
+                    FontAttributes="Bold" FontSize="16" />
+            <!-- ID -->
+            <Label Grid.Row="1" Grid.Column="0" Text="ID:" FontAttributes="Bold" />
+            <Label Grid.Row="1" Grid.Column="1"
+                   Margin="1, 1, 1, 1"
+                   Text="{Binding SelectedCircle.Id}"  />
+            <!-- Name -->
+            <Label Grid.Row="2" Grid.Column="0" Text="Name:" FontAttributes="Bold" />
+            <Label Grid.Row="2" Grid.Column="1"
+                   Margin="1, 1, 1, 1"
+                   Text="{Binding SelectedCircle.Name}" />
+            <!-- Fill Color -->
+            <Label Grid.Row="3" Grid.Column="0" Text="Fill Color:" FontAttributes="Bold" />
+            <Label Grid.Row="3" Grid.Column="1"
+                   Margin="1, 1, 1, 1"
+                   Text="{Binding SelectedCircle.FillColor, Converter={StaticResource colorHexStringConverter}}"  />
+            <!-- Stroke Color -->
+            <Label Grid.Row="4" Grid.Column="0" Text="Stroke Color:" FontAttributes="Bold" />
+            <Label Grid.Row="4" Grid.Column="1"
+                   Margin="1, 1, 1, 1"
+                   Text="{Binding SelectedCircle.StrokeColor, Converter={StaticResource colorHexStringConverter}}"  />
+            <!-- Position X -->
+            <Label Grid.Row="5" Grid.Column="0" Text="Position X:" FontAttributes="Bold" />
+            <Label Grid.Row="5" Grid.Column="1"
+                   Margin="1, 1, 1, 1"
+                   Text="{Binding SelectedCircle.PositionX}"  />
+            <!-- Position Y -->
+            <Label Grid.Row="6" Grid.Column="0" Text="Position Y:" FontAttributes="Bold" />
+            <Label Grid.Row="6" Grid.Column="1"
+                   Margin="1, 1, 1, 1"
+                   Text="{Binding SelectedCircle.PositionY}"  />
+        </Grid>
+
+        <!--Free space area-->
+        <Grid Grid.Column="1">
+            <CollectionView ItemsSource="{Binding Circles, Mode=OneTime}"
+                            SelectedItem="{Binding SelectedCircle, Mode=TwoWay}"
+                            SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="cirlce:CircleViewModel">
                         <local:PanContainer
@@ -26,14 +75,13 @@
                                      StrokeThickness="2"
                                      HorizontalOptions="Start"
                                      VerticalOptions="Start"
-                                     TranslationX="{Binding PositionX}"
-                                     TranslationY="{Binding PositionY}">
+                                     TranslationX="{Binding PositionX, Mode=TwoWay}"
+                                     TranslationY="{Binding PositionY, Mode=TwoWay}">
                             </Ellipse>
                         </local:PanContainer>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Grid>
-    </ScrollView>
-
+    </Grid>
 </ContentPage>
