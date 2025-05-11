@@ -21,7 +21,15 @@ namespace CopyPaste
     		builder.Logging.AddDebug();
 #endif
 
+            RegisterServices(builder.Services);
+
             return builder.Build();
+        }
+
+        private static void RegisterServices(IServiceCollection container)
+        {
+            new Sevices.Core.DependencyRegistrant().Register(container);
+            new Services.DependencyRegistrant().Register(container);
         }
     }
 }
