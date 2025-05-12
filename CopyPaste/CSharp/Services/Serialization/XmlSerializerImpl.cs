@@ -1,7 +1,7 @@
 ﻿using System.Xml.Serialization;
 
-using Sevices.Core.Helpers;
-using Sevices.Core.Serialization;
+using Services.Core.Helpers;
+using Services.Core.Serialization;
 
 namespace Services.Serialization
 {

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
-using Sevices.Core.Helpers;
+using Services.Core.Helpers;
 
 namespace System.IO
 {

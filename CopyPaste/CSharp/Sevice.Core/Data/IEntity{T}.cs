@@ -1,4 +1,4 @@
-﻿namespace Sevices.Core.Data
+﻿namespace Services.Core.Data
 {
     /// <summary>
     /// The base entity.

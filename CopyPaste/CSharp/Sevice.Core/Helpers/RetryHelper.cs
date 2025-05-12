@@ -1,4 +1,4 @@
-﻿namespace Sevices.Core.Helpers
+﻿namespace Services.Core.Helpers
 {
     /// <summary>
     /// Retry helper for calling the methods.

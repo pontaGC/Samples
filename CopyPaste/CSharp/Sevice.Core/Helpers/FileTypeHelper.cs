@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using Sevices.Core.Extensions;
+using Services.Core.Extensions;
 
-namespace Sevices.Core.Helpers
+namespace Services.Core.Helpers
 {
     /// <summary>
     /// Helper for checking file type.

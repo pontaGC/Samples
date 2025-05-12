@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
-using Sevices.Core.Extensions;
+using Services.Core.Extensions;
 
 using Color = System.Drawing.Color;
 

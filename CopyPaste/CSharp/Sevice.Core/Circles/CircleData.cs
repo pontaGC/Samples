@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Sevices.Core.Circles
+namespace Services.Core.Circles
 {
     [XmlRoot("Circles", Namespace = "", IsNullable = false)]
     [Serializable]

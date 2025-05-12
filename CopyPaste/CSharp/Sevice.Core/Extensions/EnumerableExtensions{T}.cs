@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Sevices.Core.Extensions
+namespace Services.Core.Extensions
 {
     /// <summary>
     /// Extension methods for <see cref="IEnumerable{T}"/> object.

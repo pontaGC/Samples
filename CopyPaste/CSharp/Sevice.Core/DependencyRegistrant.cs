@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Sevices.Core
+namespace Services.Core
 {
     /// <inheritdoc />
     public class DependencyRegistrant : IDependenyRegistrant

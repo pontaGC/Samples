@@ -28,7 +28,7 @@ namespace CopyPaste
 
         private static void RegisterServices(IServiceCollection container)
         {
-            new Sevices.Core.DependencyRegistrant().Register(container);
+            new Services.Core.DependencyRegistrant().Register(container);
             new Services.DependencyRegistrant().Register(container);
         }
     }

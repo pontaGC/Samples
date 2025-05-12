@@ -1,4 +1,4 @@
-﻿namespace Sevices.Core.Data
+﻿namespace Services.Core.Data
 {
     /// <inheritdoc />
     public abstract class Entity<TId> : IEntity<TId>

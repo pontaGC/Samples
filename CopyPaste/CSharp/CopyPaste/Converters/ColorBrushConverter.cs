@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using Sevices.Core.Extensions;
+using Services.Core.Extensions;
 
 using Color = System.Drawing.Color;
 

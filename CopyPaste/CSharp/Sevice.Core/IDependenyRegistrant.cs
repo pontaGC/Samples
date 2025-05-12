@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Sevices.Core
+namespace Services.Core
 {
     /// <summary>
     /// The registrant that registers the dependencies to a container.

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Services.Serialization;
-using Sevices.Core;
-using Sevices.Core.Serialization;
+using Services.Core;
+using Services.Core.Serialization;
 
 namespace Services
 {

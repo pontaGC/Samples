@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Sevices.Core.Serialization
+namespace Services.Core.Serialization
 {
     /// <summary>
     /// Responsible for serializing or deserializing the object related to XML Document.sw

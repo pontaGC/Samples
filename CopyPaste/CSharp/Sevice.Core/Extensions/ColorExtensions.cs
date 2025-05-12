@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 
-namespace Sevices.Core.Extensions
+namespace Services.Core.Extensions
 {
     public static class ColorExtensions
     {

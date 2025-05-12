@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CopyPaste.CircleView;
 
+using Services.Core.Serialization;
+
 using Color = System.Drawing.Color;
 
 namespace CopyPaste
@@ -15,7 +17,7 @@ namespace CopyPaste
     {
         private CircleViewModel selectedCircle;
 
-        public MainPageViewModel()
+        public MainPageViewModel(IXmlSerializer xmlSerializer)
         {
             this.Circles.Add(new CircleViewModel()
             {

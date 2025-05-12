@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 using System.Numerics;
-using Sevices.Core.Data;
+using Services.Core.Data;
 
-namespace Sevices.Core.Circles
+namespace Services.Core.Circles
 {
     /// <summary>
     /// The circle entity.
