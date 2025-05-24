@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Validation"
+             xmlns:sample="clr-namespace:Validation.Samples"
+             x:Class="Validation.Samples.ValidatableEntrySampleView">
+    <ContentView.BindingContext>
+        <!--Since this is just a sample project, we will set the ViewModel to the BindingContext here.-->
+        <sample:ValidatableEntrySampleViewModel />
+    </ContentView.BindingContext>
+    <VerticalStackLayout>
+        <Label Text="Sample ValidatableEntry" />
+        <local:ValidatableEntry Text="{Binding Text.Value}"
+                               HasError="{Binding Text.HasError}"
+                               Errors="{Binding Text.Errors}"
+                               ErrorColor="{StaticResource ErrorColor}"
+                               WidthRequest="200"
+                               HorizontalOptions="Start" />
+        <!--ErrorColor is defiend in Resources/Styles/Colors.xaml-->
+    </VerticalStackLayout>
+</ContentView>

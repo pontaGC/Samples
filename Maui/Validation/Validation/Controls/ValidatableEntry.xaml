@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Validation.ValidatableEntry"
+             x:Name="ValidatableEntryControl">
+    <VerticalStackLayout>
+        <Border x:Name="FieldBorder">
+            <Border.Triggers>
+                <DataTrigger TargetType="Border"
+                             Binding="{Binding Path=HasError, Source={x:Reference ValidatableEntryControl}}"
+                             Value="True">
+                    <Setter Property="Stroke" Value="{Binding ErrorColor, Source={x:Reference ValidatableEntryControl}}" />
+                </DataTrigger>
+            </Border.Triggers>
+            <Entry x:Name="Field" BindingContext="{x:Reference ValidatableEntryControl}"
+                   ClearButtonVisibility="{Binding ClearButtonVisibility}"
+                   IsPassword="{Binding IsPassword}"
+                   HorizontalTextAlignment="{Binding HorizontalTextAlignment}"
+                   ReturnCommand="{Binding ReturnCommand}"
+                   ReturnCommandParameter="{Binding ReturnCommandParameter}"
+                   ReturnType="{Binding ReturnType}"
+                   VerticalTextAlignment="{Binding VerticalTextAlignment}"
+                   CharacterSpacing="{Binding CharacterSpacing}"
+                   CursorPosition="{Binding CursorPosition}"
+                   FontAttributes="{Binding FontAttributes}"
+                   FontFamily="{Binding FontFamily}"
+                   FontSize="{Binding FontSize}"
+                   IsReadOnly="{Binding IsReadOnly}"                  
+                   IsSpellCheckEnabled="{Binding IsSpellCheckEnabled}"
+                   IsTextPredictionEnabled="{Binding IsTextPredictionEnabled}"
+                   Keyboard="{Binding Keyboard}"
+                   MaxLength="{Binding MaxLength}"
+                   Placeholder="{Binding Placeholder}"
+                   PlaceholderColor="{Binding PlaceholderColor}"
+                   SelectionLength="{Binding SelectionLength}"
+                   Text="{Binding Text, Mode=TwoWay}"
+                   TextColor="{Binding TextColor}"
+                   TextTransform="{Binding TextTransform}" />
+        </Border>
+        <Label x:Name="ErrorContentLabel" TextColor="{Binding ErrorColor, Source={x:Reference ValidatableEntryControl}}" />
+    </VerticalStackLayout>
+</ContentView>
