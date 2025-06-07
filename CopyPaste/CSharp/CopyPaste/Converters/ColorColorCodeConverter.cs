@@ -6,25 +6,32 @@ using Color = System.Drawing.Color;
 
 namespace CopyPaste.Converters
 {
-    internal class ColorHexStringConverter : IValueConverter
+    /// <summary>
+    /// Conversion <see cref="Color"/> to RGB/ARGB color code and back.
+    /// </summary>
+    internal class ColorColorCodeConverter : IValueConverter
     {
-        private readonly Regex colorCodeRegex = new Regex("^#[A-Fa-f0-9]{6}$", RegexOptions.Compiled);
-        private readonly Regex colorCodeWithAlphaRegex = new Regex("^#[A-Fa-f0-9]{8}$", RegexOptions.Compiled);
-
+        /// <inheritdoc />
         object? IValueConverter.Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is Color color)
             {
-                return color.ToHex();
+                return color.GetHtmlColorCode();
             }
 
             return BindableProperty.UnsetValue;
         }
 
+        /// <inheritdoc />
         object? IValueConverter.ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var colorCode = (value as string) ?? string.Empty;
-            if (this.colorCodeRegex.IsMatch(colorCode))
+            return ConvertColorCodeToColor(colorCode);
+        }
+
+        private static Color ConvertColorCodeToColor(string colorCode)
+        {
+            if (Regex.IsMatch(colorCode, "^#[A-Fa-f0-9]{6}$"))
             {
                 // #RRGGBB
                 int r = Convert.ToInt32(colorCode.Substring(1, 2), 16);
@@ -33,7 +40,7 @@ namespace CopyPaste.Converters
                 return Color.FromArgb(r, g, b);
             }
 
-            if (this.colorCodeWithAlphaRegex.IsMatch(colorCode))
+            if (Regex.IsMatch(colorCode, "^#[A-Fa-f0-9]{8}$"))
             {
                 // #AARRGGBB
                 int a = Convert.ToInt32(colorCode.Substring(1, 2), 16);

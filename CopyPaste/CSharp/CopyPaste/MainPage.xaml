@@ -9,7 +9,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:ColorToBrushConverter x:Key="colorToBrushConverter" />
-            <converter:ColorHexStringConverter x:Key="colorHexStringConverter" />
+            <converter:ColorColorCodeConverter x:Key="colorColorCodeConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -18,9 +18,15 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
         <!--Meta data area-->
-        <Grid Grid.Column="0" Padding="10"
+        <Grid Grid.Column="0" Grid.RowSpan="2"
+              Padding="10"
+              MinimumWidthRequest="250"
               RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto"
               ColumnDefinitions="Auto,*">
             <Label Grid.Row="0" Grid.ColumnSpan="2"
@@ -40,12 +46,12 @@
             <Label Grid.Row="3" Grid.Column="0" Text="Fill Color:" FontAttributes="Bold" />
             <Label Grid.Row="3" Grid.Column="1"
                    Margin="1, 1, 1, 1"
-                   Text="{Binding SelectedCircle.FillColor, Converter={StaticResource colorHexStringConverter}}"  />
+                   Text="{Binding SelectedCircle.FillColor, Converter={StaticResource colorColorCodeConverter}}"  />
             <!-- Stroke Color -->
             <Label Grid.Row="4" Grid.Column="0" Text="Stroke Color:" FontAttributes="Bold" />
             <Label Grid.Row="4" Grid.Column="1"
                    Margin="1, 1, 1, 1"
-                   Text="{Binding SelectedCircle.StrokeColor, Converter={StaticResource colorHexStringConverter}}"  />
+                   Text="{Binding SelectedCircle.StrokeColor, Converter={StaticResource colorColorCodeConverter}}"  />
             <!-- Position X -->
             <Label Grid.Row="5" Grid.Column="0" Text="Position X:" FontAttributes="Bold" />
             <Label Grid.Row="5" Grid.Column="1"
@@ -58,8 +64,17 @@
                    Text="{Binding SelectedCircle.PositionY}"  />
         </Grid>
 
+        <!--Button area-->
+        <HorizontalStackLayout Grid.Column="1" Grid.Row="0"
+                               HorizontalOptions="Center">
+            <Button Text="Copy" Margin="2.5" WidthRequest="150"
+                    Command="{Binding CopyCircleCommand, Mode=OneTime}" />
+            <Button Text="Paste" Margin="2.5" WidthRequest="150"
+                    Command="{Binding PasteCircleCommand, Mode=OneTime}" />
+        </HorizontalStackLayout>
+
         <!--Free space area-->
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Grid.Row="1">
             <CollectionView ItemsSource="{Binding Circles, Mode=OneTime}"
                             SelectedItem="{Binding SelectedCircle, Mode=TwoWay}"
                             SelectionMode="Single">
@@ -70,8 +85,8 @@
                             PanAreaHeight="{Binding Path=Height, Source={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}">
                             <Ellipse WidthRequest="50"
                                      HeightRequest="50"
-                                     Fill="{Binding FillColor, Converter={StaticResource colorToBrushConverter}}"
-                                     Stroke="{Binding StrokeColor, Converter={StaticResource colorToBrushConverter}}"
+                                     Fill="{Binding FillColor, Converter={StaticResource colorColorCodeConverter}"
+                                     Stroke="{Binding StrokeColor, Converter={StaticResource colorColorCodeConverter}}"
                                      StrokeThickness="2"
                                      HorizontalOptions="Start"
                                      VerticalOptions="Start"

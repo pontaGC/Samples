@@ -30,7 +30,7 @@ namespace CopyPaste.Converters
         }
         private static SolidColorBrush Convert(Color color)
         {
-            var mauiColor = Microsoft.Maui.Graphics.Color.FromArgb(color.ToHexWithAlpha());
+            var mauiColor = Microsoft.Maui.Graphics.Color.FromArgb(color.GetFullHtmlColorCode());
             return new SolidColorBrush(mauiColor);
         }
 
