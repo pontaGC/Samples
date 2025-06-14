@@ -28,6 +28,7 @@ namespace CopyPaste.Converters
 
             return Binding.DoNothing;
         }
+
         private static SolidColorBrush Convert(Color color)
         {
             var mauiColor = Microsoft.Maui.Graphics.Color.FromArgb(color.GetFullHtmlColorCode());

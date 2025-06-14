@@ -24,14 +24,14 @@
         </Grid.RowDefinitions>
 
         <!--Meta data area-->
-        <Grid Grid.Column="0" Grid.RowSpan="2"
-              Padding="10"
+        <Grid Grid.Column="0" Grid.Row="0"
+              Padding="5"
               MinimumWidthRequest="250"
               RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto"
               ColumnDefinitions="Auto,*">
             <Label Grid.Row="0" Grid.ColumnSpan="2"
-                    Text="属性一覧"
-                    FontAttributes="Bold" FontSize="16" />
+                    Text="Circle Attributes"
+                    FontAttributes="Bold" FontSize="16" TextColor="BlueViolet" />
             <!-- ID -->
             <Label Grid.Row="1" Grid.Column="0" Text="ID:" FontAttributes="Bold" />
             <Label Grid.Row="1" Grid.Column="1"
@@ -63,14 +63,34 @@
                    Margin="1, 1, 1, 1"
                    Text="{Binding SelectedCircle.PositionY}"  />
         </Grid>
+        
+        <!--copied XML serialized data-->
+        <Grid Grid.Column="0" Grid.Row="1"
+              Padding="5">
+            <VerticalStackLayout>
+                <Label Text="Copied Circle Data" FontAttributes="Bold" FontSize="16" TextColor="BlueViolet" />
+                <Editor x:Name="XmlEditor"                    
+                    Text="{Binding CopiedCirclesData}"
+                    AutoSize="TextChanges"
+                    IsReadOnly="True"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalTextAlignment="Start"
+                    HorizontalTextAlignment="Start"
+                    MaximumWidthRequest="400"
+                    HeightRequest="300"
+                    Background="WhiteSmoke" />
+            </VerticalStackLayout>
+        </Grid>
 
         <!--Button area-->
         <HorizontalStackLayout Grid.Column="1" Grid.Row="0"
                                HorizontalOptions="Center">
-            <Button Text="Copy" Margin="2.5" WidthRequest="150"
-                    Command="{Binding CopyCircleCommand, Mode=OneTime}" />
-            <Button Text="Paste" Margin="2.5" WidthRequest="150"
-                    Command="{Binding PasteCircleCommand, Mode=OneTime}" />
+            <Button Text="Copy" Margin="2.5" WidthRequest="150" HeightRequest="80"
+                    Command="{Binding CopyCircleCommand, Mode=OneTime}"
+                    CommandParameter="{Binding Source={RelativeSource Mode=FindAncestor, AncestorType={x:Type Page}}}" />
+            <Button Text="Paste" Margin="2.5" WidthRequest="150" HeightRequest="80"
+                    Command="{Binding PasteCircleCommand, Mode=OneTime}"
+                    CommandParameter="{Binding Source={RelativeSource Mode=FindAncestor, AncestorType={x:Type Page}}}" />
         </HorizontalStackLayout>
 
         <!--Free space area-->
@@ -83,16 +103,15 @@
                         <local:PanContainer
                             PanAreaWidth="{Binding Path=Width, Source={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}"
                             PanAreaHeight="{Binding Path=Height, Source={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}">
-                            <Ellipse WidthRequest="50"
-                                     HeightRequest="50"
-                                     Fill="{Binding FillColor, Converter={StaticResource colorColorCodeConverter}"
-                                     Stroke="{Binding StrokeColor, Converter={StaticResource colorColorCodeConverter}}"
-                                     StrokeThickness="2"
-                                     HorizontalOptions="Start"
-                                     VerticalOptions="Start"
-                                     TranslationX="{Binding PositionX, Mode=TwoWay}"
-                                     TranslationY="{Binding PositionY, Mode=TwoWay}">
-                            </Ellipse>
+                                <Ellipse WidthRequest="50"
+                                         HeightRequest="50"
+                                         Fill="{Binding FillColor, Converter={StaticResource colorToBrushConverter}}"
+                                         Stroke="{Binding StrokeColor, Converter={StaticResource colorToBrushConverter}}"
+                                         StrokeThickness="2"
+                                         HorizontalOptions="Start"
+                                         VerticalOptions="Start"
+                                         TranslationX="{Binding PositionX, Mode=TwoWay}"
+                                         TranslationY="{Binding PositionY, Mode=TwoWay}" />
                         </local:PanContainer>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

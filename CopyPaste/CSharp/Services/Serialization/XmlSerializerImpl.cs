@@ -1,6 +1,7 @@
-﻿using System.Xml.Serialization;
+﻿using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
-using Services.Core.Helpers;
 using Services.Core.Serialization;
 
 namespace Services.Serialization
@@ -32,29 +33,17 @@ namespace Services.Serialization
         #region Public Methods
 
         /// <inheritdoc />
-        public void Serialize<T>(T source, string xmlFilePath, XmlSerializerNamespaces namespaces = null)
+        public void Serialize<T>(T source, string xmlFilePath, XmlSerializerNamespaces? namespaces, Encoding? encoding)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (string.IsNullOrEmpty(xmlFilePath))
-            {
-                throw new ArgumentNullException(nameof(xmlFilePath));
-            }
-
-            if (!FileTypeHelper.IsXmlFile(xmlFilePath))
-            {
-                throw new ArgumentException("This file is not XML.", nameof(xmlFilePath));
-            }
-
-            var serializer = new XmlSerializer(typeof(T));
             try
             {
                 using (var fileStream = this.fileSystem.OpenOrCreateFile(xmlFilePath, FileAccess.Write, FileShare.None))
                 {
-                    serializer.Serialize(fileStream, source, namespaces);
+                    using(var streamWriter = new StreamWriter(fileStream, encoding ?? Encoding.UTF8))
+                    {
+                        var serializer = new XmlSerializer(typeof(T));
+                        serializer.Serialize(streamWriter, source, namespaces);
+                    }
                 }
             }
             catch (InvalidOperationException)
@@ -69,28 +58,40 @@ namespace Services.Serialization
         }
 
         /// <inheritdoc />
-        public void Serialize<T>(T source, Stream targetStream, XmlSerializerNamespaces namespaces = null)
+        public void Serialize<T>(T source, Stream targetStream, XmlSerializerNamespaces? namespaces, Encoding? encoding)
         {
-            if (source is null)
+            var xmlWriterSettings = new XmlWriterSettings()
             {
-                throw new ArgumentNullException(nameof(source));
-            }
+                Encoding = encoding ?? Encoding.UTF8,
+                Indent = true,
+                OmitXmlDeclaration = false,
+            };
 
-            if (targetStream is null)
+            try
             {
-                throw new ArgumentNullException(nameof(targetStream));
+                using (var xmlWriter = XmlWriter.Create(targetStream, xmlWriterSettings))
+                {
+                    var serializer = new XmlSerializer(typeof(T));
+                    serializer.Serialize(xmlWriter, source, namespaces);
+                }
             }
-
-            var serializer = new XmlSerializer(typeof(T));
-            serializer.Serialize(targetStream, source, namespaces);
+            catch (InvalidOperationException)
+            {
+                // Serialization error
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message, ex);
+            }
         }
 
         /// <inheritdoc />
-        public bool TrySerialize<T>(T source, string xmlFilePath, XmlSerializerNamespaces namespaces = null)
+        public bool TrySerialize<T>(T source, string xmlFilePath, XmlSerializerNamespaces? namespaces, Encoding? encoding)
         {
             try
             {
-                this.Serialize(source, xmlFilePath, namespaces);
+                this.Serialize(source, xmlFilePath, namespaces, encoding);
                 return true;
             }
             catch
@@ -100,11 +101,11 @@ namespace Services.Serialization
         }
 
         /// <inheritdoc />
-        public bool TrySerialize<T>(T source, Stream targetStream, XmlSerializerNamespaces namespaces = null)
+        public bool TrySerialize<T>(T source, Stream targetStream, XmlSerializerNamespaces? namespaces, Encoding? encoding)
         {
             try
             {
-                this.Serialize(source, targetStream, namespaces);
+                this.Serialize(source, targetStream, namespaces, encoding);
                 return true;
             }
             catch
@@ -116,22 +117,15 @@ namespace Services.Serialization
         /// <inheritdoc />
         public T Deserialize<T>(string xmlFilePath)
         {
-            if (string.IsNullOrEmpty(xmlFilePath))
-            {
-                throw new ArgumentNullException(nameof(xmlFilePath));
-            }
-
-            if (!FileTypeHelper.IsXmlFile(xmlFilePath))
-            {
-                throw new ArgumentException("This file is not XML.", nameof(xmlFilePath));
-            }
-
             var serializer = new XmlSerializer(typeof(T));
             try
             {
                 using (var fileStream = this.fileSystem.OpenReadFile(xmlFilePath))
                 {
-                    return (T)serializer.Deserialize(fileStream);
+                    using(var xmlReader = XmlReader.Create(fileStream))
+                    {
+                        return (T)serializer.Deserialize(xmlReader);
+                    }
                 }
             }
             catch (InvalidOperationException)
@@ -148,13 +142,15 @@ namespace Services.Serialization
         /// <inheritdoc />
         public T Deserialize<T>(Stream xmlStream)
         {
-            if (xmlStream is null)
-            {
-                throw new ArgumentNullException(nameof(xmlStream));
-            }
-
             var serializer = new XmlSerializer(typeof(T));
             return (T)serializer.Deserialize(xmlStream);
+        }
+
+        /// <inheritdoc />
+        public T Deserialize<T>(TextReader textReader)
+        {
+            var serializer = new XmlSerializer(typeof(T));
+            return (T)serializer.Deserialize(textReader);
         }
 
         /// <inheritdoc />
@@ -163,7 +159,7 @@ namespace Services.Serialization
             deserializedObject = default;
             try
             {
-                deserializedObject = Deserialize<T>(xmlFilePath);
+                deserializedObject = this.Deserialize<T>(xmlFilePath);
                 return true;
             }
             catch
@@ -178,7 +174,22 @@ namespace Services.Serialization
             deserializedObject = default;
             try
             {
-                deserializedObject = Deserialize<T>(xmlStream);
+                deserializedObject = this.Deserialize<T>(xmlStream);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <inheritdoc />
+        public bool TryDeserialize<T>(TextReader textReader, out T deserializedObject)
+        {
+            deserializedObject = default;
+            try
+            {
+                deserializedObject = this.Deserialize<T>(textReader);
                 return true;
             }
             catch

@@ -22,6 +22,9 @@ namespace Services.Core.Circles
         [XmlElement("Position")]
         public CirclePositionData Position { get; set; }
 
+        [XmlElement("Radius")]
+        public float Radius { get; set; }
+
         [XmlElement("FillColor")]
         public string FillColor { get; set; }
 
@@ -33,9 +36,9 @@ namespace Services.Core.Circles
     public class CirclePositionData
     {
         [XmlAttribute("X")]
-        public double X { get; set; }
+        public float X { get; set; }
 
         [XmlAttribute("Y")]
-        public double Y { get; set; }
+        public float Y { get; set; }
     }
 }
