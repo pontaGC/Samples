@@ -16,7 +16,8 @@ namespace CopyPaste
             var mainPage = new MainPage()
             {
                 BindingContext = new MainPageViewModel(
-                    serviceProvider.GetRequiredService<IXmlSerializer>()),
+                    serviceProvider.GetRequiredService<IXmlSerializer>(),
+                    Clipboard.Default),
             };
 
             return new ShellContent()

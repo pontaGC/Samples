@@ -16,6 +16,7 @@ namespace CopyPaste
     internal class MainPageViewModel : ObservableObject
     {
         private readonly IXmlSerializer xmlSerializer;
+        private readonly IClipboard clipboard;
 
         private readonly AsyncRelayCommand<Page> copyCircleCommand;
         private readonly AsyncRelayCommand<Page> pasteCircleCommand;
@@ -23,9 +24,10 @@ namespace CopyPaste
         private string copiedCirclesData;
         private CircleViewModel selectedCircle;
 
-        public MainPageViewModel(IXmlSerializer xmlSerializer)
+        public MainPageViewModel(IXmlSerializer xmlSerializer, IClipboard clipboard)
         {
             this.xmlSerializer = xmlSerializer;
+            this.clipboard = clipboard;
 
             this.Circles.Add(new CircleViewModel()
             {
@@ -87,9 +89,11 @@ namespace CopyPaste
                     using (var streamReader = new StreamReader(memoryStream))
                     {
                         this.CopiedCirclesData = streamReader.ReadToEnd();
-                    }                        
+                    }
                 }
 
+                // This project does not use the clipboard, but demonstrates what you can copy to the clipboard.
+                await this.clipboard.SetTextAsync(this.CopiedCirclesData);
             }
             catch (InvalidOperationException invalidOperationException)
             {
