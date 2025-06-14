@@ -76,7 +76,8 @@
                     HorizontalOptions="FillAndExpand"
                     VerticalTextAlignment="Start"
                     HorizontalTextAlignment="Start"
-                    MaximumWidthRequest="400"
+                    WidthRequest="500"
+                    MaximumWidthRequest="700"
                     HeightRequest="300"
                     Background="WhiteSmoke" />
             </VerticalStackLayout>
