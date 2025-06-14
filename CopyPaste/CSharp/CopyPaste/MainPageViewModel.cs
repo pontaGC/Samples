@@ -15,6 +15,8 @@ namespace CopyPaste
 {
     internal class MainPageViewModel : ObservableObject
     {
+        #region Fields
+
         private readonly IXmlSerializer xmlSerializer;
         private readonly IClipboard clipboard;
 
@@ -23,6 +25,10 @@ namespace CopyPaste
 
         private string copiedCirclesData;
         private CircleViewModel selectedCircle;
+
+        #endregion
+
+        #region Constructors
 
         public MainPageViewModel(IXmlSerializer xmlSerializer, IClipboard clipboard)
         {
@@ -47,6 +53,10 @@ namespace CopyPaste
             this.pasteCircleCommand = new AsyncRelayCommand<Page>(this.PasteCircle, this.CanPasteCircle);
         }
 
+        #endregion
+
+        #region Properties
+
         public CircleViewModel SelectedCircle
         {
             get => this.selectedCircle;
@@ -70,6 +80,10 @@ namespace CopyPaste
         public ICommand PasteCircleCommand => this.pasteCircleCommand;
 
         public ObservableCollection<CircleViewModel> Circles { get; } = new ObservableCollection<CircleViewModel>();
+
+        #endregion
+
+        #region Methods
 
         private bool CanCopyCircle(Page? page)
         {
@@ -172,5 +186,7 @@ namespace CopyPaste
         {
             this.copiedCirclesData = string.Empty;
         }
+
+        #endregion
     }
 }
