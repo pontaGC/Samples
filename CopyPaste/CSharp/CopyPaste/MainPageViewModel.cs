@@ -129,7 +129,7 @@ namespace CopyPaste
         {
             try
             {
-                using (var reader = new StringReader(this.copiedCirclesData))
+                using (var reader = new StringReader(this.CopiedCirclesData))
                 {
                     var deserializedCirclesData = this.xmlSerializer.Deserialize<CirclesData>(reader);
                     var pastingCircleData = deserializedCirclesData.Circles.FirstOrDefault();
