@@ -160,11 +160,11 @@ namespace FileDragAndDrop.Behaviors
             }
         }
 
-        private void ExecuteDropFoldersCommand(IEnumerable<string> droppedFiles)
+        private void ExecuteDropFoldersCommand(IEnumerable<string> droppedFolders)
         {
-            if (this.DropFoldersCommand.CanExecute(droppedFiles))
+            if (this.DropFoldersCommand.CanExecute(droppedFolders))
             {
-                this.DropFoldersCommand.Execute(droppedFiles);
+                this.DropFoldersCommand.Execute(droppedFolders);
             }
         }
 
