@@ -81,7 +81,7 @@ namespace FileDragAndDrop.Behaviors
 
         #region Protected Methods
 
-        /// <inheridoc />
+        /// <inheritdoc />
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -90,7 +90,7 @@ namespace FileDragAndDrop.Behaviors
             AssociatedObject.Drop += OnDrop;
         }
 
-        /// <inheridoc />
+        /// <inheritdoc />
         protected override void OnDetaching()
         {
             base.OnDetaching();
