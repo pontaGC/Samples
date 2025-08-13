@@ -14,7 +14,6 @@ public partial class DotProgressRingView : ContentView
 
     private CancellationTokenSource? progressCts;
 
-
     #endregion
 
     #region Constructors
