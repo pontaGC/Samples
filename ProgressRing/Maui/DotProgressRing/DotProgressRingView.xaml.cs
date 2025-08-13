@@ -5,12 +5,19 @@ namespace DotProgressRing;
 
 public partial class DotProgressRingView : ContentView
 {
+    #region Fields
+
     private const int CirclesCount = 12;
     private const double CircleWidth = 10;
     private const double CircleHeight = 10;
     private const double RadiusRatio = 0.35; // not length
 
     private CancellationTokenSource? progressCts;
+
+
+    #endregion
+
+    #region Constructors
 
     public DotProgressRingView()
 	{
@@ -21,6 +28,10 @@ public partial class DotProgressRingView : ContentView
         this.Loaded += this.OnLoaded;
         this.Unloaded += this.OnUnloaded;
     }
+
+    #endregion
+
+    #region Private Megthods
 
     private void InitializeCirlces()
     {
@@ -82,7 +93,14 @@ public partial class DotProgressRingView : ContentView
 
     private void OnUnloaded(object? sender, EventArgs e)
     {
+        this.ExitProgressAnimation();
+    }
+
+    private void ExitProgressAnimation()
+    {
         this.progressCts?.Cancel();
         this.progressCts = null;
     }
+
+    #endregion
 }
