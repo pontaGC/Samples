@@ -1,0 +1,45 @@
+﻿<Window x:Class="Dialogs.ProgressDialogView"
+        x:ClassModifier="internal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dialogs"
+        xmlns:behaviors="clr-namespace:Behaviors"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Title="{Binding Title, Mode=OneWay}"
+        Height="250" Width="250"
+        MinHeight="200" MinWidth="200"
+        behaviors:CloseWindowBehavior.DialogResult="{Binding DialogResult, Mode=OneWay}"
+        d:DataContext="{d:DesignInstance local:ProgressDialogViewModel, IsDesignTimeCreatable=False}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ProgressViewStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Style="{StaticResource ProgressMessageTextBlockStyle}"
+                   Text="{Binding ProgressMessage, Mode=OneWay}"
+                   Margin="5"
+                   VerticalAlignment="Top" HorizontalAlignment="Center" />
+        <local:ProgressRingControl Grid.Row="1" />
+        <Button Grid.Row="2"
+                Style="{StaticResource CancelButtonStyle}"
+                Margin="10"             
+                Content="Cancel"
+                VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                Visibility="{Binding IsCancellable, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Command="{Binding CancelCommand, Mode=OneTime}" />
+    </Grid>
+</Window>
