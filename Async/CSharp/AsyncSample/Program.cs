@@ -80,7 +80,7 @@ namespace AsyncSample
             Console.WriteLine("Do something else while waiting for the task to complete...");
             runTask.GetAwaiter().GetResult(); // To get result or catch exceptions
 
-            if (caughtException is OperationCanceledException)
+            if (caughtException is OperationCanceledException || cancellationToken.IsCancellationRequested)
             {
                 Console.WriteLine("Operation was cancelled.");
             }
