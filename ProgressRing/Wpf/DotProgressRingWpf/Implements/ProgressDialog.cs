@@ -18,13 +18,31 @@ namespace Dialogs
         #region Show
 
         /// <inheritdoc />
+        public ProgressDialogResult Show(string title, string initialMessage, Action<IProgress<ProgressReport>, CancellationToken> action, bool isCancellable, ProgressDialogSettings dialogSettings)
+        {
+            return this.Show(Application.Current?.MainWindow, title, initialMessage, action, isCancellable, dialogSettings);
+        }
+
+        /// <inheritdoc />
+        public ProgressDialogResult Show(string title, string initialMessage, Action<IProgress<ProgressReport>> action, ProgressDialogSettings dialogSettings)
+        {
+            return this.Show(Application.Current?.MainWindow, title, initialMessage, action, dialogSettings);
+        }
+
+        /// <inheritdoc />
+        public ProgressDialogResult Show(string title, string initialMessage, Action action, ProgressDialogSettings dialogSettings)
+        {
+            return this.Show(Application.Current?.MainWindow, title, initialMessage, action, dialogSettings);
+        }
+
+        /// <inheritdoc />
         public ProgressDialogResult Show(
             Window ownerWindow,
             string title,
             string initialMessage,
             Action<IProgress<ProgressReport>, CancellationToken> action,
-            bool isCancellable = true,
-            ProgressDialogSettings dialogSettings = null)
+            bool isCancellable,
+            ProgressDialogSettings dialogSettings)
         {
             using (var cancellationTokenSource = isCancellable ? new CancellationTokenSource() : null)
             {
@@ -75,7 +93,7 @@ namespace Dialogs
             string title,
             string initialMessage,
             Action<IProgress<ProgressReport>> action,
-            ProgressDialogSettings dialogSettings = null)
+            ProgressDialogSettings dialogSettings)
         {
             var wrappedAction = new Action<IProgress<ProgressReport>, CancellationToken>(
                 (progress, _) => action.Invoke(progress));
@@ -88,7 +106,7 @@ namespace Dialogs
             string title,
             string initialMessage,
             Action action,
-            ProgressDialogSettings dialogSettings = null)
+            ProgressDialogSettings dialogSettings)
         {
             var wrappedAction = new Action<IProgress<ProgressReport>, CancellationToken>(
                 (p, c) => action.Invoke());
@@ -99,13 +117,31 @@ namespace Dialogs
         }
 
         /// <inheritdoc />
+        public ProgressDialogResult<T> Show<T>(string title, string initialMessage, Func<IProgress<ProgressReport>, CancellationToken, T> function, bool isCancellable, ProgressDialogSettings dialogSettings)
+        {
+            return this.Show(Application.Current?.MainWindow, title, initialMessage, function, isCancellable, dialogSettings);
+        }
+
+        /// <inheritdoc />
+        public ProgressDialogResult<T> Show<T>(string title, string initialMessage, Func<IProgress<ProgressReport>, T> function, ProgressDialogSettings dialogSettings)
+        {
+            return this.Show(Application.Current?.MainWindow, title, initialMessage, function, dialogSettings);
+        }
+
+        /// <inheritdoc />
+        public ProgressDialogResult<T> Show<T>(string title, string initialMessage, Func<T> function, ProgressDialogSettings dialogSettings)
+        {
+            return this.Show(Application.Current?.MainWindow, title, initialMessage, function, dialogSettings);
+        }
+
+        /// <inheritdoc />
         public ProgressDialogResult<T> Show<T>(
             Window ownerWindow,
             string title,
             string initialMessage,
             Func<IProgress<ProgressReport>, CancellationToken, T> function,
-            bool isCancellable = true,
-            ProgressDialogSettings dialogSettings = null)
+            bool isCancellable,
+            ProgressDialogSettings dialogSettings)
         {
             using (var cancellationTokenSource = isCancellable ? new CancellationTokenSource() : null)
             {
@@ -170,7 +206,7 @@ namespace Dialogs
             string title,
             string initialMessage,
             Func<T> function,
-            ProgressDialogSettings dialogSettings = null)
+            ProgressDialogSettings dialogSettings)
         {
             var wrappedFunction = new Func<IProgress<ProgressReport>, CancellationToken, T>(
                 (p, c) => function.Invoke());
@@ -185,13 +221,31 @@ namespace Dialogs
         #region ShowAsync
 
         /// <inheritdoc />
+        public async Task<ProgressDialogResult> ShowAsync(string title, string initialMessage, Func<IProgress<ProgressReport>, CancellationToken, Task> task, bool isCancellable, ProgressDialogSettings dialogSettings)
+        {
+            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, isCancellable, dialogSettings);
+        }
+
+        /// <inheritdoc />
+        public async Task<ProgressDialogResult> ShowAsync(string title, string initialMessage, Func<IProgress<ProgressReport>, Task> task, ProgressDialogSettings dialogSettings)
+        {
+            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, dialogSettings);
+        }
+
+        /// <inheritdoc />
+        public async Task<ProgressDialogResult> ShowAsync(string title, string initialMessage, Func<Task> task, ProgressDialogSettings dialogSettings)
+        {
+            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, dialogSettings);
+        }
+
+        /// <inheritdoc />
         public async Task<ProgressDialogResult> ShowAsync(
             Window ownerWindow,
             string title,
             string initialMessage,
             Func<IProgress<ProgressReport>, CancellationToken, Task> task,
-            bool isCancellable = true,
-            ProgressDialogSettings dialogSettings = null)
+            bool isCancellable,
+            ProgressDialogSettings dialogSettings)
         {
             using (var cancellationTokenSource = isCancellable ? new CancellationTokenSource() : null)
             {
@@ -242,7 +296,7 @@ namespace Dialogs
             string title,
             string initialMessage,
             Func<IProgress<ProgressReport>, Task> task,
-            ProgressDialogSettings dialogSettings = null)
+            ProgressDialogSettings dialogSettings)
         {
             var wrappedAction = new Func<IProgress<ProgressReport>, CancellationToken, Task>(
                 (progress, _) => task(progress));
@@ -255,7 +309,7 @@ namespace Dialogs
             string title,
             string initialMessage,
             Func<Task> task,
-            ProgressDialogSettings dialogSettings = null)
+            ProgressDialogSettings dialogSettings)
         {
             var wrappedAction = new Func<IProgress<ProgressReport>, CancellationToken, Task>(
                 (p, c) => task());
@@ -265,13 +319,31 @@ namespace Dialogs
         }
 
         /// <inheritdoc />
+        public async Task<ProgressDialogResult<T>> ShowAsync<T>(string title, string initialMessage, Func<IProgress<ProgressReport>, CancellationToken, Task<T>> task, bool isCancellable, ProgressDialogSettings dialogSettings)
+        {
+            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, isCancellable, dialogSettings);
+        }
+
+        /// <inheritdoc />
+        public async Task<ProgressDialogResult<T>> ShowAsync<T>(string title, string initialMessage, Func<IProgress<ProgressReport>, Task<T>> task, ProgressDialogSettings dialogSettings)
+        {
+            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, dialogSettings);
+        }
+
+        /// <inheritdoc />
+        public async Task<ProgressDialogResult<T>> ShowAsync<T>(string title, string initialMessage, Func<Task<T>> task, ProgressDialogSettings dialogSettings)
+        {
+            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, dialogSettings);
+        }
+
+        /// <inheritdoc />
         public async Task<ProgressDialogResult<T>> ShowAsync<T>(
             Window ownerWindow,
             string title,
             string initialMessage,
             Func<IProgress<ProgressReport>, CancellationToken, Task<T>> task,
-            bool isCancellable = true,
-            ProgressDialogSettings dialogSettings = null)
+            bool isCancellable,
+            ProgressDialogSettings dialogSettings)
         {
             using (var cancellationTokenSource = isCancellable ? new CancellationTokenSource() : null)
             {
@@ -323,7 +395,7 @@ namespace Dialogs
             string title,
             string initialMessage,
             Func<IProgress<ProgressReport>, Task<T>> task,
-            ProgressDialogSettings dialogSettings = null)
+            ProgressDialogSettings dialogSettings)
         {
             var wrappedFunction = new Func<IProgress<ProgressReport>, CancellationToken, Task<T>>(
                 (progress, _) => task(progress));
@@ -336,7 +408,7 @@ namespace Dialogs
             string title,
             string initialMessage,
             Func<Task<T>> task,
-            ProgressDialogSettings dialogSettings = null)
+            ProgressDialogSettings dialogSettings)
         {
             var wrappedFunction = new Func<IProgress<ProgressReport>, CancellationToken, Task<T>>(
                 (p, c) => task());
