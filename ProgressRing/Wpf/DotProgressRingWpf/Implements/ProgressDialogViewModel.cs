@@ -38,13 +38,13 @@ namespace Dialogs
             this.progressReporter = progressReporter;          
             this.cancellationTokenSource = cancellationTokenSource;
 
-            this.progressReporter.ProgressChanged += this.OnProgressChanged;
-            this.progressReporter.ProgressCompleted += this.OnProgressCompleted;
             this.IsCancellable = cancellationTokenSource != null;
             if (this.IsCancellable)
             {
                 this.cancelCommand = new DelegateCommand(this.Cancel);
             }
+
+            this.SubscribeEvents();
         }
 
         #endregion
@@ -150,6 +150,12 @@ namespace Dialogs
         {
             this.DialogResult = this.IsCancellable ? !this.cancellationTokenSource.IsCancellationRequested : true;
             this.UnsubsribeEvents();
+        }
+
+        private void SubscribeEvents()
+        {
+            this.progressReporter.ProgressChanged += this.OnProgressChanged;
+            this.progressReporter.ProgressCompleted += this.OnProgressCompleted;
         }
 
         private void UnsubsribeEvents()
