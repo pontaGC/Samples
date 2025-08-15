@@ -58,6 +58,7 @@ namespace Dialogs
 
         /// <summary>
         /// Gets or sets a dialog result. The view will close when this property is set to <c>true</c> or <c>false</c>.
+        /// <c>false</c> indicates that the progress dialog has been cancelled.
         /// </summary>
         public bool? DialogResult 
         { 
@@ -119,8 +120,6 @@ namespace Dialogs
         private void Cancel()
         {
             this.cancellationTokenSource.Cancel();
-            this.DialogResult = false;
-            this.UnsubsribeEvents();
         }
 
         private void OnProgressChanged(object sender, ProgressReport report)
@@ -149,7 +148,7 @@ namespace Dialogs
 
         private void OnProgressCompleted(object sender, EventArgs e)
         {
-            this.DialogResult = true;
+            this.DialogResult = this.IsCancellable ? !this.cancellationTokenSource.IsCancellationRequested : true;
             this.UnsubsribeEvents();
         }
 
