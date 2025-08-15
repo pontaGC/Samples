@@ -18,9 +18,9 @@ namespace Dialogs
         #region Show
 
         /// <inheritdoc />
-        public ProgressDialogResult Show(string title, string initialMessage, Action<IProgress<ProgressReport>, CancellationToken> action, bool isCancellable, ProgressDialogSettings dialogSettings)
+        public ProgressDialogResult Show(string title, string initialMessage, Action action, ProgressDialogSettings dialogSettings)
         {
-            return this.Show(Application.Current?.MainWindow, title, initialMessage, action, isCancellable, dialogSettings);
+            return this.Show(Application.Current?.MainWindow, title, initialMessage, action, dialogSettings);
         }
 
         /// <inheritdoc />
@@ -30,9 +30,28 @@ namespace Dialogs
         }
 
         /// <inheritdoc />
-        public ProgressDialogResult Show(string title, string initialMessage, Action action, ProgressDialogSettings dialogSettings)
+        public ProgressDialogResult Show(string title, string initialMessage, Action<IProgress<ProgressReport>, CancellationToken> action, bool isCancellable, ProgressDialogSettings dialogSettings)
         {
-            return this.Show(Application.Current?.MainWindow, title, initialMessage, action, dialogSettings);
+            return this.Show(Application.Current?.MainWindow, title, initialMessage, action, isCancellable, dialogSettings);
+        }
+
+        /// <inheritdoc />
+        public ProgressDialogResult Show(Window ownerWindow, string title, string initialMessage, Action action, ProgressDialogSettings dialogSettings)
+        {
+            var wrappedAction = new Action<IProgress<ProgressReport>, CancellationToken>(
+                (p, c) => action.Invoke());
+
+            var settings = dialogSettings ?? new ProgressDialogSettings();
+            settings.IsPercentVisible = false;
+            return this.Show(ownerWindow, title, initialMessage, wrappedAction, false, settings);
+        }
+
+        /// <inheritdoc />
+        public ProgressDialogResult Show(Window ownerWindow, string title, string initialMessage, Action<IProgress<ProgressReport>> action, ProgressDialogSettings dialogSettings)
+        {
+            var wrappedAction = new Action<IProgress<ProgressReport>, CancellationToken>(
+                (progress, _) => action.Invoke(progress));
+            return this.Show(ownerWindow, title, initialMessage, wrappedAction, false, dialogSettings);
         }
 
         /// <inheritdoc />
@@ -87,39 +106,14 @@ namespace Dialogs
             }
         }
 
-        /// <inheritdoc />
-        public ProgressDialogResult Show(
-            Window ownerWindow,
-            string title,
-            string initialMessage,
-            Action<IProgress<ProgressReport>> action,
-            ProgressDialogSettings dialogSettings)
-        {
-            var wrappedAction = new Action<IProgress<ProgressReport>, CancellationToken>(
-                (progress, _) => action.Invoke(progress));
-            return this.Show(ownerWindow, title, initialMessage, wrappedAction, false, dialogSettings);
-        }
+        #endregion
+
+        #region Show<T>
 
         /// <inheritdoc />
-        public ProgressDialogResult Show(
-            Window ownerWindow,
-            string title,
-            string initialMessage,
-            Action action,
-            ProgressDialogSettings dialogSettings)
+        public ProgressDialogResult<T> Show<T>(string title, string initialMessage, Func<T> function, ProgressDialogSettings dialogSettings)
         {
-            var wrappedAction = new Action<IProgress<ProgressReport>, CancellationToken>(
-                (p, c) => action.Invoke());
-
-            var settings = dialogSettings ?? new ProgressDialogSettings();
-            settings.IsPercentVisible = false;
-            return this.Show(ownerWindow, title, initialMessage, wrappedAction, false, settings);
-        }
-
-        /// <inheritdoc />
-        public ProgressDialogResult<T> Show<T>(string title, string initialMessage, Func<IProgress<ProgressReport>, CancellationToken, T> function, bool isCancellable, ProgressDialogSettings dialogSettings)
-        {
-            return this.Show(Application.Current?.MainWindow, title, initialMessage, function, isCancellable, dialogSettings);
+            return this.Show(Application.Current?.MainWindow, title, initialMessage, function, dialogSettings);
         }
 
         /// <inheritdoc />
@@ -129,9 +123,28 @@ namespace Dialogs
         }
 
         /// <inheritdoc />
-        public ProgressDialogResult<T> Show<T>(string title, string initialMessage, Func<T> function, ProgressDialogSettings dialogSettings)
+        public ProgressDialogResult<T> Show<T>(string title, string initialMessage, Func<IProgress<ProgressReport>, CancellationToken, T> function, bool isCancellable, ProgressDialogSettings dialogSettings)
         {
-            return this.Show(Application.Current?.MainWindow, title, initialMessage, function, dialogSettings);
+            return this.Show(Application.Current?.MainWindow, title, initialMessage, function, isCancellable, dialogSettings);
+        }
+
+        /// <inheritdoc />
+        public ProgressDialogResult<T> Show<T>(Window ownerWindow, string title, string initialMessage, Func<T> function, ProgressDialogSettings dialogSettings)
+        {
+            var wrappedFunction = new Func<IProgress<ProgressReport>, CancellationToken, T>(
+                (p, c) => function.Invoke());
+
+            var settings = dialogSettings ?? new ProgressDialogSettings();
+            settings.IsPercentVisible = false;
+            return this.Show(ownerWindow, title, initialMessage, wrappedFunction, false, settings);
+        }
+
+        /// <inheritdoc />
+        public ProgressDialogResult<T> Show<T>(Window ownerWindow, string title, string initialMessage, Func<IProgress<ProgressReport>, T> function, ProgressDialogSettings dialogSettings)
+        {
+            var wrappedFunction = new Func<IProgress<ProgressReport>, CancellationToken, T>(
+                (progress, _) => function.Invoke(progress));
+            return this.Show(ownerWindow, title, initialMessage, wrappedFunction, false, dialogSettings);
         }
 
         /// <inheritdoc />
@@ -187,43 +200,14 @@ namespace Dialogs
             }
         }
 
-        /// <inheritdoc />
-        public ProgressDialogResult<T> Show<T>(
-            Window ownerWindow,
-            string title,
-            string initialMessage,
-            Func<IProgress<ProgressReport>, T> function,
-            ProgressDialogSettings dialogSettings = null)
-        {
-            var wrappedFunction = new Func<IProgress<ProgressReport>, CancellationToken, T>(
-                (progress, _) => function.Invoke(progress));
-            return this.Show(ownerWindow, title, initialMessage, wrappedFunction, false, dialogSettings);
-        }
-
-        /// <inheritdoc />
-        public ProgressDialogResult<T> Show<T>(
-            Window ownerWindow,
-            string title,
-            string initialMessage,
-            Func<T> function,
-            ProgressDialogSettings dialogSettings)
-        {
-            var wrappedFunction = new Func<IProgress<ProgressReport>, CancellationToken, T>(
-                (p, c) => function.Invoke());
-
-            var settings = dialogSettings ?? new ProgressDialogSettings();
-            settings.IsPercentVisible = false;
-            return this.Show(ownerWindow, title, initialMessage, wrappedFunction, false, settings);
-        }
-
         #endregion
 
         #region ShowAsync
 
         /// <inheritdoc />
-        public async Task<ProgressDialogResult> ShowAsync(string title, string initialMessage, Func<IProgress<ProgressReport>, CancellationToken, Task> task, bool isCancellable, ProgressDialogSettings dialogSettings)
+        public async Task<ProgressDialogResult> ShowAsync(string title, string initialMessage, Func<Task> task, ProgressDialogSettings dialogSettings)
         {
-            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, isCancellable, dialogSettings);
+            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, dialogSettings);
         }
 
         /// <inheritdoc />
@@ -233,9 +217,37 @@ namespace Dialogs
         }
 
         /// <inheritdoc />
-        public async Task<ProgressDialogResult> ShowAsync(string title, string initialMessage, Func<Task> task, ProgressDialogSettings dialogSettings)
+        public async Task<ProgressDialogResult> ShowAsync(string title, string initialMessage, Func<IProgress<ProgressReport>, CancellationToken, Task> task, bool isCancellable, ProgressDialogSettings dialogSettings)
         {
-            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, dialogSettings);
+            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, isCancellable, dialogSettings);
+        }
+
+        /// <inheritdoc />
+        public async Task<ProgressDialogResult> ShowAsync(
+            Window ownerWindow,
+            string title,
+            string initialMessage,
+            Func<Task> task,
+            ProgressDialogSettings dialogSettings)
+        {
+            var wrappedAction = new Func<IProgress<ProgressReport>, CancellationToken, Task>(
+                (p, c) => task());
+            var settings = dialogSettings ?? new ProgressDialogSettings();
+            settings.IsPercentVisible = false;
+            return await this.ShowAsync(ownerWindow, title, initialMessage, wrappedAction, false, settings);
+        }
+
+        /// <inheritdoc />
+        public async Task<ProgressDialogResult> ShowAsync(
+            Window ownerWindow,
+            string title,
+            string initialMessage,
+            Func<IProgress<ProgressReport>, Task> task,
+            ProgressDialogSettings dialogSettings)
+        {
+            var wrappedAction = new Func<IProgress<ProgressReport>, CancellationToken, Task>(
+                (progress, _) => task(progress));
+            return await this.ShowAsync(ownerWindow, title, initialMessage, wrappedAction, false, dialogSettings);
         }
 
         /// <inheritdoc />
@@ -290,38 +302,14 @@ namespace Dialogs
             }
         }
 
-        /// <inheritdoc />
-        public async Task<ProgressDialogResult> ShowAsync(
-            Window ownerWindow,
-            string title,
-            string initialMessage,
-            Func<IProgress<ProgressReport>, Task> task,
-            ProgressDialogSettings dialogSettings)
-        {
-            var wrappedAction = new Func<IProgress<ProgressReport>, CancellationToken, Task>(
-                (progress, _) => task(progress));
-            return await this.ShowAsync(ownerWindow, title, initialMessage, wrappedAction, false, dialogSettings);
-        }
+        #endregion
+
+        #region ShowAsync<T>
 
         /// <inheritdoc />
-        public async Task<ProgressDialogResult> ShowAsync(
-            Window ownerWindow,
-            string title,
-            string initialMessage,
-            Func<Task> task,
-            ProgressDialogSettings dialogSettings)
+        public async Task<ProgressDialogResult<T>> ShowAsync<T>(string title, string initialMessage, Func<Task<T>> task, ProgressDialogSettings dialogSettings)
         {
-            var wrappedAction = new Func<IProgress<ProgressReport>, CancellationToken, Task>(
-                (p, c) => task());
-            var settings = dialogSettings ?? new ProgressDialogSettings();
-            settings.IsPercentVisible = false;
-            return await this.ShowAsync(ownerWindow, title, initialMessage, wrappedAction, false, settings);
-        }
-
-        /// <inheritdoc />
-        public async Task<ProgressDialogResult<T>> ShowAsync<T>(string title, string initialMessage, Func<IProgress<ProgressReport>, CancellationToken, Task<T>> task, bool isCancellable, ProgressDialogSettings dialogSettings)
-        {
-            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, isCancellable, dialogSettings);
+            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, dialogSettings);
         }
 
         /// <inheritdoc />
@@ -331,9 +319,37 @@ namespace Dialogs
         }
 
         /// <inheritdoc />
-        public async Task<ProgressDialogResult<T>> ShowAsync<T>(string title, string initialMessage, Func<Task<T>> task, ProgressDialogSettings dialogSettings)
+        public async Task<ProgressDialogResult<T>> ShowAsync<T>(string title, string initialMessage, Func<IProgress<ProgressReport>, CancellationToken, Task<T>> task, bool isCancellable, ProgressDialogSettings dialogSettings)
         {
-            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, dialogSettings);
+            return await this.ShowAsync(Application.Current?.MainWindow, title, initialMessage, task, isCancellable, dialogSettings);
+        }
+
+        /// <inheritdoc />
+        public async Task<ProgressDialogResult<T>> ShowAsync<T>(
+            Window ownerWindow,
+            string title,
+            string initialMessage,
+            Func<Task<T>> task,
+            ProgressDialogSettings dialogSettings)
+        {
+            var wrappedFunction = new Func<IProgress<ProgressReport>, CancellationToken, Task<T>>(
+                (p, c) => task());
+            var settings = dialogSettings ?? new ProgressDialogSettings();
+            settings.IsPercentVisible = false;
+            return await this.ShowAsync(ownerWindow, title, initialMessage, wrappedFunction, false, settings);
+        }
+
+        /// <inheritdoc />
+        public async Task<ProgressDialogResult<T>> ShowAsync<T>(
+            Window ownerWindow,
+            string title,
+            string initialMessage,
+            Func<IProgress<ProgressReport>, Task<T>> task,
+            ProgressDialogSettings dialogSettings)
+        {
+            var wrappedFunction = new Func<IProgress<ProgressReport>, CancellationToken, Task<T>>(
+                (progress, _) => task(progress));
+            return await this.ShowAsync(ownerWindow, title, initialMessage, wrappedFunction, false, dialogSettings);
         }
 
         /// <inheritdoc />
@@ -387,34 +403,6 @@ namespace Dialogs
 
                 return new ProgressDialogResult<T>(false, result);
             }
-        }
-
-        /// <inheritdoc />
-        public async Task<ProgressDialogResult<T>> ShowAsync<T>(
-            Window ownerWindow,
-            string title,
-            string initialMessage,
-            Func<IProgress<ProgressReport>, Task<T>> task,
-            ProgressDialogSettings dialogSettings)
-        {
-            var wrappedFunction = new Func<IProgress<ProgressReport>, CancellationToken, Task<T>>(
-                (progress, _) => task(progress));
-            return await this.ShowAsync(ownerWindow, title, initialMessage, wrappedFunction, false, dialogSettings);
-        }
-
-        /// <inheritdoc />
-        public async Task<ProgressDialogResult<T>> ShowAsync<T>(
-            Window ownerWindow,
-            string title,
-            string initialMessage,
-            Func<Task<T>> task,
-            ProgressDialogSettings dialogSettings)
-        {
-            var wrappedFunction = new Func<IProgress<ProgressReport>, CancellationToken, Task<T>>(
-                (p, c) => task());
-            var settings = dialogSettings ?? new ProgressDialogSettings();
-            settings.IsPercentVisible = false;
-            return await this.ShowAsync(ownerWindow, title, initialMessage, wrappedFunction, false, settings);
         }
 
         #endregion
