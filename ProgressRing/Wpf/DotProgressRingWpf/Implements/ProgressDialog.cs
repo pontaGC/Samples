@@ -93,6 +93,12 @@ namespace Dialogs
                 dialog.ShowDialog();
                 runTask.GetAwaiter().GetResult(); // To get result or catch exceptions
 
+                if (isCancellable && cancellationToken.IsCancellationRequested)
+                {
+                    // Not throw cancellation requested in the run task
+                    return new ProgressDialogResult(true);
+                }
+
                 if (caughtException is OperationCanceledException)
                 {
                     return new ProgressDialogResult(true);
@@ -186,6 +192,12 @@ namespace Dialogs
 
                 dialog.ShowDialog();
                 runTask.GetAwaiter().GetResult(); // To get result or catch exceptions
+
+                if (isCancellable && cancellationToken.IsCancellationRequested)
+                {
+                    // Not throw cancellation requested in the run task
+                    return new ProgressDialogResult<T>(true, default);
+                }
 
                 if (caughtException is OperationCanceledException)
                 {
@@ -289,6 +301,12 @@ namespace Dialogs
                 dialog.ShowDialog();
                 await runTask; // To get result or catch exceptions
 
+                if (isCancellable && cancellationToken.IsCancellationRequested)
+                {
+                    // Not throw cancellation requested in the run task
+                    return new ProgressDialogResult(true);
+                }
+
                 if (caughtException is OperationCanceledException)
                 {
                     return new ProgressDialogResult(true);
@@ -391,6 +409,12 @@ namespace Dialogs
 
                 dialog.ShowDialog();
                 await runTask; // To get result or catch exceptions
+
+                if (isCancellable && cancellationToken.IsCancellationRequested)
+                {
+                    // Not throw cancellation requested in the run task
+                    return new ProgressDialogResult<T>(true, default);
+                }
 
                 if (caughtException is OperationCanceledException)
                 {
