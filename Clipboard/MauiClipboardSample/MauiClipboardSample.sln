@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36327.8 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiClipboardSample", "MauiClipboardSample.csproj", "{ABB45BEA-0C25-4B04-B6EB-46537DAE5BC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maui.Services", "..\Maui.Services\Maui.Services.csproj", "{EE70B385-1F98-4C5B-875D-DB6BC3AC5BD8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABB45BEA-0C25-4B04-B6EB-46537DAE5BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB45BEA-0C25-4B04-B6EB-46537DAE5BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB45BEA-0C25-4B04-B6EB-46537DAE5BC4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{ABB45BEA-0C25-4B04-B6EB-46537DAE5BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB45BEA-0C25-4B04-B6EB-46537DAE5BC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB45BEA-0C25-4B04-B6EB-46537DAE5BC4}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{EE70B385-1F98-4C5B-875D-DB6BC3AC5BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE70B385-1F98-4C5B-875D-DB6BC3AC5BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE70B385-1F98-4C5B-875D-DB6BC3AC5BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE70B385-1F98-4C5B-875D-DB6BC3AC5BD8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {469EEE46-3F83-46FE-A62F-047742002683}
+	EndGlobalSection
+EndGlobal
